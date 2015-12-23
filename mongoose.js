@@ -2,6 +2,14 @@ var mongoose = require('mongoose');
 
 var url = "mongodb://127.0.0.1:27017/breakout";
 
+/**
+ * Code in this File is taken from http://stackoverflow.com/a/33139673
+ *
+ * Created By: Gil SH (https://stackoverflow.com/users/880223/gil-sh)
+ * License is cc by-sa 3.0
+ */
+
+
 var db = mongoose.connection;
 var lastReconnectAttempt; //saves the timestamp of the last reconnect attempt
 
