@@ -1,6 +1,9 @@
+'use strict';
 var mongoose = require('mongoose');
 
-var url = "mongodb://127.0.0.1:27017/breakout";
+const MAILER_MONGO_DB_HOST = process.env.MAILER_MONGO_DB_HOST || "127.0.0.1";
+const MAILER_MONGO_DB_PORT = process.env.MAILER_MONGO_DB_PORT || "27017";
+const URL = `mongodb://${MAILER_MONGO_DB_HOST}:${MAILER_MONGO_DB_PORT}`;
 
 /**
  * Code in this File is taken from http://stackoverflow.com/a/33139673
@@ -22,7 +25,7 @@ var opt = {
     server: {auto_reconnect: true}
 };
 
-mongoose.connect(url, opt);
+mongoose.connect(URL, opt);
 
 db.on('error', function (error) {
     console.error('Error in MongoDb connection: ' + error);
@@ -40,13 +43,13 @@ db.on('disconnected', function () {
         setTimeout(function () {
             console.log('reconnecting to MongoDB');
             lastReconnectAttempt = new Date().getTime();
-            mongoose.connect(url, opt);
+            mongoose.connect(URL, opt);
         }, delay);
     }
     else {
         console.log('reconnecting to MongoDB');
         lastReconnectAttempt = now;
-        mongoose.connect(url, opt);
+        mongoose.connect(URL, opt);
     }
 });
 
