@@ -4,8 +4,8 @@ var mongoose = require('mongoose');
 
 const MONGO_USER = process.env.MONGO_USER || "";
 const MONGO_PASSWORD = process.env.MONGO_PASSWORD || "";
-const MONGO_DATABASE = process.env.MONGO_DATABASE || "127.0.0.1";
-const MONGO_HOST = process.env.MONGO_HOST || "27017";
+const MONGO_DATABASE = process.env.MONGO_DATABASE || "mails";
+const MONGO_HOST = process.env.MONGO_HOST || "127.0.0.1:27017";
 const URL = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}/${MONGO_DATABASE}`;
 
 /**
