@@ -190,6 +190,18 @@ var getAll = function (req, res) {
 
 };
 
+var getForReceiver = function (req, res) {
+    if (req.params.email) {
+        mailObject.find(
+            {"tos.email": req.params.email}
+        ).sort({update_date: 'desc'}).exec(function (err, data) {
+            if (err) return console.error(err);
+            res.json(data);
+        });
+    }
+};
+
+
 module.exports = {
     webhook: webhook,
     sendMail: sendMail,
@@ -197,5 +209,6 @@ module.exports = {
     getFromTo: getFromTo,
     getByCampaign: getByCampaign,
     getWithError: getWithError,
-    getAll: getAll
+    getAll: getAll,
+    getForReceiver: getForReceiver
 };

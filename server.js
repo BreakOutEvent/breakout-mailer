@@ -16,6 +16,7 @@ app.post('/webhook', mailer.webhook);
 app.post('/send', mailer.sendMail);
 app.get('/get/campaign/:campaign_code', mailer.getByCampaign);
 app.get('/get/error', mailer.getWithError);
+app.get('/get/to/:email', mailer.getForReceiver);
 app.get('/get/:id', mailer.getByID);
 app.get('/get/:from/:to', mailer.getFromTo);
 app.get('/get', mailer.getAll);
