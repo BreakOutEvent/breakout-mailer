@@ -1,6 +1,10 @@
+'use strict';
 var mongoose = require('mongoose');
 
 var url = "mongodb://" + process.env.MONGO_USER + ":" + process.env.MONGO_PASSWORD + "@" + process.env.MONGO_HOST + "/" + process.env.MONGO_DATABASE;
+const MAILER_MONGO_DB_HOST = process.env.MAILER_MONGO_DB_HOST || "127.0.0.1";
+const MAILER_MONGO_DB_PORT = process.env.MAILER_MONGO_DB_PORT || "27017";
+const URL = `mongodb://${MAILER_MONGO_DB_HOST}:${MAILER_MONGO_DB_PORT}`;
 
 /**
  * Code in this File is taken from http://stackoverflow.com/a/33139673
@@ -14,15 +18,15 @@ var db = mongoose.connection;
 var lastReconnectAttempt; //saves the timestamp of the last reconnect attempt
 
 var opt = {
-    //user: process.env.MONGO_USER,
-    // pass: 'process.env.MONGO_PASSWORD',
+    // user: 'admin',
+    // pass: 'pass',
     // auth: {
     //     authdb: 'admin'
     // },
     server: {auto_reconnect: true}
 };
 
-mongoose.connect(url, opt);
+mongoose.connect(URL, opt);
 
 db.on('error', function (error) {
     console.error('Error in MongoDb connection: ' + error);
@@ -40,13 +44,13 @@ db.on('disconnected', function () {
         setTimeout(function () {
             console.log('reconnecting to MongoDB');
             lastReconnectAttempt = new Date().getTime();
-            mongoose.connect(url, opt);
+            mongoose.connect(URL, opt);
         }, delay);
     }
     else {
         console.log('reconnecting to MongoDB');
         lastReconnectAttempt = now;
-        mongoose.connect(url, opt);
+        mongoose.connect(URL, opt);
     }
 });
 
