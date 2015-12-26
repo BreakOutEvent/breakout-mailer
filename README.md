@@ -12,7 +12,17 @@ Installation
 Usage
 -----
 
+**SendGrid Webhook**
+----
+  Events Notification Webhook to be called by Sendgrid
+  
+* **URL**
 
+  /webhook
+
+* **Method:**
+
+  `POST`
 
 
 **Send Mail**
@@ -44,7 +54,111 @@ Usage
 
 
 
+**Get Mail By ID**
+----
+  Get a mail with specific ID
 
+* **URL**
+
+  /get/:id
+
+* **Method:**
+
+  `GET`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   `id = String` ID of mail to get
+
+
+
+**Get Mails By Campaign**
+----
+  Get all mails for campaign code
+
+* **URL**
+
+  /get/campaign/:code
+
+* **Method:**
+
+  `GET`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   `code = String` Campaign Code of mails to get
+
+
+
+**Get all Mails**
+----
+  Get all mails
+
+* **URL**
+
+  /get
+
+* **Method:**
+
+  `GET`
+
+
+**Get Mails with Error**
+----
+  Get all mails with Error
+
+* **URL**
+
+  /get/error
+
+* **Method:**
+
+  `GET`
+
+
+
+**Get Mails from Date to Date**
+----
+  Get all Mails from Date to Date
+
+* **URL**
+
+  /get/:from/:to
+
+* **Method:**
+
+  `GET`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   `from = Int` Unixtimestamp from when to get mails
+   `to = Int` Unixtimestamp to when to get mails
+
+
+
+**Get Mails to Receiver**
+----
+  Get all mails to specific receiver
+
+* **URL**
+
+  /get/to/:email
+
+* **Method:**
+
+  `GET`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   `email = String` Email of receiver to get mails for
 
 License
 -----
