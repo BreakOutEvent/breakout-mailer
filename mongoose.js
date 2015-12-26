@@ -1,3 +1,5 @@
+'use strict';
+
 var mongoose = require('mongoose');
 
 const MONGO_USER = process.env.MONGO_USER || "";
