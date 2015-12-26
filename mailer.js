@@ -2,7 +2,6 @@ var sendgrid = require('sendgrid')(process.env.SENDGRID_KEY);
 var uuid = require('node-uuid');
 var mongo = require('./mongoose.js');
 
-
 var mailObject = mongo.mongoose.model('mails',
     mongo.mongoose.Schema({
         id: String,
@@ -135,7 +134,7 @@ var sendMail = function (req, res, next) {
 var getByID = function (req, res) {
     if (req.params.id) {
         mailObject.findOne({id: req.params.id}, function (err, data) {
-            if (err) return console.log(err);
+            if (err) return console.error(err);
             res.json(data);
         });
     }
@@ -156,15 +155,47 @@ var getFromTo = function (req, res) {
                 }
             }]
         }).sort({update_date: 'desc'}).exec(function (err, data) {
-            if (err) return console.log(err);
+            if (err) return console.error(err);
             res.json(data);
         });
     }
+};
+
+var getByCampaign = function (req, res) {
+    if (req.params.campaign_code) {
+        mailObject.find({
+            campaign_code: req.params.campaign_code
+        }).sort({update_date: 'desc'}).exec(function (err, data) {
+            if (err) return console.error(err);
+            res.json(data);
+        });
+    }
+};
+
+var getWithError = function (req, res) {
+    mailObject.find(
+        {"tos.events.message": {"$in": ["deferred", "dropped", "bounce"]}}
+    ).sort({update_date: 'desc'}).exec(function (err, data) {
+        if (err) return console.error(err);
+        res.json(data);
+    });
+
+};
+
+var getAll = function (req, res) {
+    mailObject.find({}).sort({update_date: 'desc'}).exec(function (err, data) {
+        if (err) return console.error(err);
+        res.json(data);
+    });
+
 };
 
 module.exports = {
     webhook: webhook,
     sendMail: sendMail,
     getByID: getByID,
-    getFromTo: getFromTo
+    getFromTo: getFromTo,
+    getByCampaign: getByCampaign,
+    getWithError: getWithError,
+    getAll: getAll
 };
