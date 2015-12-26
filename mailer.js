@@ -6,6 +6,7 @@ var mongo = require('./mongoose.js');
 var mailObject = mongo.mongoose.model('mails',
     mongo.mongoose.Schema({
         id: String,
+        campaign_code: String,
         tos: [{email: String, isbcc: Boolean, events: [{timestamp: Number, message: String, email: String}]}],
         subject: String,
         body: String,
@@ -80,6 +81,7 @@ var sendMail = function (req, res, next) {
 
     if (mail.files != null) {
         mail.files.forEach(function (elem) {
+            //TODO download/upload Files
             email.addFile(elem);
         });
     }
@@ -95,6 +97,7 @@ var sendMail = function (req, res, next) {
             id: id,
             tos: to,
             subject: mail.subject,
+            campaign_code: mail.campaign_code,
             body: mail.html,
             attachments: mail.files,
             create_date: start_date,
@@ -129,7 +132,39 @@ var sendMail = function (req, res, next) {
 
 };
 
+var getByID = function (req, res) {
+    if (req.params.id) {
+        mailObject.findOne({id: req.params.id}, function (err, data) {
+            if (err) return console.log(err);
+            res.json(data);
+        });
+    }
+};
+
+var getFromTo = function (req, res) {
+    if (req.params.to && req.params.from) {
+        mailObject.find({
+            $or: [{
+                create_date: {
+                    $lte: req.params.to,
+                    $gte: req.params.from
+                }
+            }, {
+                update_date: {
+                    $lte: req.params.to,
+                    $gte: req.params.from
+                }
+            }]
+        }).sort({update_date: 'desc'}).exec(function (err, data) {
+            if (err) return console.log(err);
+            res.json(data);
+        });
+    }
+};
+
 module.exports = {
     webhook: webhook,
-    sendMail: sendMail
+    sendMail: sendMail,
+    getByID: getByID,
+    getFromTo: getFromTo
 };

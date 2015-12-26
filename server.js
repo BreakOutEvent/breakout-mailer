@@ -14,10 +14,13 @@ app.get('/', function (req, res) {
 
 app.post('/webhook', mailer.webhook);
 app.post('/send', mailer.sendMail);
+app.get('/:id', mailer.getByID);
+app.get('/:from/:to', mailer.getFromTo);
+
 
 var server = app.listen(3000, function () {
     var host = server.address().address;
     var port = server.address().port;
 
-    console.log('Example app listening at http://%s:%s', host, port);
+    console.log('Mailservice listening at http://%s:%s', host, port);
 });

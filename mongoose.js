@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var url = "mongodb://127.0.0.1:27017/breakout";
+var url = "mongodb://" + process.env.MONGO_USER + ":" + process.env.MONGO_PASSWORD + "@" + process.env.MONGO_HOST + "/" + process.env.MONGO_DATABASE;
 
 /**
  * Code in this File is taken from http://stackoverflow.com/a/33139673
@@ -14,8 +14,8 @@ var db = mongoose.connection;
 var lastReconnectAttempt; //saves the timestamp of the last reconnect attempt
 
 var opt = {
-    // user: 'admin',
-    // pass: 'pass',
+    //user: process.env.MONGO_USER,
+    // pass: 'process.env.MONGO_PASSWORD',
     // auth: {
     //     authdb: 'admin'
     // },

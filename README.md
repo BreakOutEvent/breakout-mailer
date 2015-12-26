@@ -9,6 +9,43 @@ Installation
 * npm install
 * npm start
 
+Usage
+-----
+
+
+
+
+**Send Mail**
+----
+  Sends a Mail to all Receivers in TO-Field
+
+* **URL**
+
+  /send
+
+* **Method:**
+
+  `POST`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   `tos = [String]` TO Receivers
+   `subject = String` Subject of mail
+   `html = String` Body as HTML
+   
+   **Optional:**
+    
+   `files = [String]` Urls of files as attachment
+   `bccs = [String]` BCC Receivers
+   `campaign_code = String` Code for Campaign
+
+
+
+
+
+
 License
 -----
 
