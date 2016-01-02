@@ -12,6 +12,10 @@ Installation
 Usage
 -----
 
+**All Request must provide an AUTH-TOKEN**
+
+`X-AUTH-TOKEN` Auth Token for Accessing API-Functions
+
 **SendGrid Webhook**
 ----
   Events Notification Webhook to be called by Sendgrid
