@@ -12,14 +12,23 @@ app.get('/', function (req, res) {
     res.send('Breakout Mailer Backend');
 });
 
-app.post('/webhook', mailer.webhook);
-app.post('/send', mailer.sendMail);
-app.get('/get/campaign/:campaign_code', mailer.getByCampaign);
-app.get('/get/error', mailer.getWithError);
-app.get('/get/to/:email', mailer.getForReceiver);
-app.get('/get/:id', mailer.getByID);
-app.get('/get/:from/:to', mailer.getFromTo);
-app.get('/get', mailer.getAll);
+function auth(req, res, next) {
+    if (req.get('X-AUTH-TOKEN') && (req.get('X-AUTH-TOKEN') == process.env.MAILER_AUTH_TOKEN)) {
+        next();
+    } else {
+        res.status(401);
+        res.json({error: "authentication required"})
+    }
+}
+
+app.post('/webhook', auth, mailer.webhook);
+app.post('/send', auth, mailer.sendMail);
+app.get('/get/campaign/:campaign_code', auth, mailer.getByCampaign);
+app.get('/get/error', auth, mailer.getWithError);
+app.get('/get/to/:email', auth, mailer.getForReceiver);
+app.get('/get/:id', auth, mailer.getByID);
+app.get('/get/:from/:to', auth, mailer.getFromTo);
+app.get('/get', auth, mailer.getAll);
 
 
 var server = app.listen(3000, function () {
