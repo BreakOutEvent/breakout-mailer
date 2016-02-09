@@ -26,9 +26,9 @@ var getTimestamp = function () {
 var webhook = function (req, res, next) {
     console.log(req.body);
     req.body.forEach(function (elem) {
-        if (elem.mailer_id !== null) {
+        if (elem.mailer_id !== undefined) {
             mailObject.findOne({id: elem.mailer_id}, function (error, obj) {
-                if (obj !== null) {
+                if (obj !== undefined) {
                     console.log(req.body);
 
                     obj.tos.forEach(function (to) {
@@ -60,14 +60,14 @@ var sendMail = function (req, res, next) {
 
     var to = [];
 
-    if (mail.tos !== null) {
+    if (mail.tos !== undefined) {
         mail.tos.forEach(function (elem) {
             email.addTo(elem);
             to.push({email: elem, isbcc: false, events: []});
         });
     }
 
-    if (mail.bccs !== null) {
+    if (mail.bccs !== undefined) {
         mail.bccs.forEach(function (elem) {
             console.log(elem);
             email.addBcc(elem);
@@ -80,7 +80,7 @@ var sendMail = function (req, res, next) {
     email.setFrom("mailer@break-out.org");
     email.setFromName("Breakout Mailer");
 
-    if (mail.files !== null) {
+    if (mail.files !== undefined) {
         mail.files.forEach(function (elem) {
             //TODO download/upload Files
             email.addFile(elem);
