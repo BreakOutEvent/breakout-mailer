@@ -5,6 +5,7 @@ COPY . /src
 WORKDIR /src
 
 RUN npm install
+RUN npm install -g forever
 
 EXPOSE 3003
-CMD ["node", "server"]
+CMD ["forever", "server.js"]

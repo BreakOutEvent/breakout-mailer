@@ -28,14 +28,15 @@ var webhook = function (req, res, next) {
     req.body.forEach(function (elem) {
         if (elem.mailer_id !== undefined) {
             mailObject.findOne({id: elem.mailer_id}, function (error, obj) {
-                if (obj !== undefined) {
+                if (obj) {
                     console.log(req.body);
-
-                    obj.tos.forEach(function (to) {
-                        if (to.email === elem.email) {
-                            to.events.push({timestamp: elem.timestamp, message: elem.event});
-                        }
-                    });
+                    if (obj.tos) {
+                        obj.tos.forEach(function (to) {
+                            if (to.email === elem.email) {
+                                to.events.push({timestamp: elem.timestamp, message: elem.event});
+                            }
+                        });
+                    }
                     obj.update_date = elem.timestamp;
                     obj.save(function (err) {
                         if (err) console.error(err);
