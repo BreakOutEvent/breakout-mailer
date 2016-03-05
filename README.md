@@ -7,7 +7,7 @@ Installation
 
 * register Sendgrid Event-Notifications to your /webhook url
 * docker build -t breakout/mailer .
-* docker run \
+* docker run -d \  
    -e MAILER_AUTH_TOKEN='shared-mailing-token' \  
    -e MAILER_SENDGRID_KEY='sg-key' \  
    -e MAILER_MONGO_USER='user' \  
