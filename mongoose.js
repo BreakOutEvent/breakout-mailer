@@ -2,25 +2,20 @@
 
 var mongoose = require('mongoose');
 
-const MONGO_USER = process.env.MONGO_USER || "";
-const MONGO_PASSWORD = process.env.MONGO_PASSWORD || "";
-const MONGO_DATABASE = process.env.MONGO_DATABASE || "mails";
-const MONGO_HOST = process.env.MONGO_HOST || "127.0.0.1:27017";
-const URL = buildMongoUrl(MONGO_USER, MONGO_PASSWORD, MONGO_DATABASE, MONGO_HOST);
-
-// Build connection URL dependent on whether a user is specified or not
-function buildMongoUrl(user, password, database, host) {
-  if(!user) {
-    return `mongodb://${MONGO_HOST}/${MONGO_DATABASE}`;
-  } else {
-    return `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}/${MONGO_DATABASE}`;
-  }
-}
 const MAILER_MONGO_USER = process.env.MAILER_MONGO_USER || "";
 const MAILER_MONGO_PASSWORD = process.env.MAILER_MONGO_PASSWORD || "";
 const MAILER_MONGO_DATABASE = process.env.MAILER_MONGO_DATABASE || "mails";
 const MAILER_MONGO_HOST = process.env.MAILER_MONGO_HOST || "127.0.0.1:27017";
-const URL = `mongodb://${MAILER_MONGO_USER}:${MAILER_MONGO_PASSWORD}@${MAILER_MONGO_HOST}/${MAILER_MONGO_DATABASE}`;
+const URL = buildMongoUrl(MAILER_MONGO_USER, MAILER_MONGO_PASSWORD, MAILER_MONGO_DATABASE, MAILER_MONGO_HOST);
+
+// Build connection URL dependent on whether a user is specified or not
+function buildMongoUrl(user, password, database, host) {
+  if(!user) {
+    return `mongodb://${host}/${database}`;
+  } else {
+    return `mongodb://${user}:${password}@${host}/${database}`;
+  }
+}
 
 /**
  * Code in this File is taken from http://stackoverflow.com/a/33139673
@@ -28,8 +23,6 @@ const URL = `mongodb://${MAILER_MONGO_USER}:${MAILER_MONGO_PASSWORD}@${MAILER_MO
  * Created By: Gil SH (https://stackoverflow.com/users/880223/gil-sh)
  * License is cc by-sa 3.0
  */
-
-
 var db = mongoose.connection;
 var lastReconnectAttempt; //saves the timestamp of the last reconnect attempt
 
