@@ -2,6 +2,20 @@
 
 var mongoose = require('mongoose');
 
+const MONGO_USER = process.env.MONGO_USER || "";
+const MONGO_PASSWORD = process.env.MONGO_PASSWORD || "";
+const MONGO_DATABASE = process.env.MONGO_DATABASE || "mails";
+const MONGO_HOST = process.env.MONGO_HOST || "127.0.0.1:27017";
+const URL = buildMongoUrl(MONGO_USER, MONGO_PASSWORD, MONGO_DATABASE, MONGO_HOST);
+
+// Build connection URL dependent on whether a user is specified or not
+function buildMongoUrl(user, password, database, host) {
+  if(!user) {
+    return `mongodb://${MONGO_HOST}/${MONGO_DATABASE}`;
+  } else {
+    return `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}/${MONGO_DATABASE}`;
+  }
+}
 const MAILER_MONGO_USER = process.env.MAILER_MONGO_USER || "";
 const MAILER_MONGO_PASSWORD = process.env.MAILER_MONGO_PASSWORD || "";
 const MAILER_MONGO_DATABASE = process.env.MAILER_MONGO_DATABASE || "mails";

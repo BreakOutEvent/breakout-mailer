@@ -17,7 +17,7 @@ function auth(req, res, next) {
         next();
     } else {
         res.status(401);
-        res.json({error: "authentication required"})
+        res.json({error: "authentication required"});
     }
 }
 
