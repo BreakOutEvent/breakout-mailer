@@ -21,7 +21,7 @@ function auth(req, res, next) {
     }
 }
 
-app.post('/webhook', auth, mailer.webhook);
+app.post('/webhook', mailer.webhook);
 app.post('/send', auth, mailer.sendMail);
 app.get('/get/campaign/:campaign_code', auth, mailer.getByCampaign);
 app.get('/get/error', auth, mailer.getWithError);
