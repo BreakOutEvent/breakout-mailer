@@ -20,7 +20,7 @@
 		{
 			"id": "26823c17-267a-f4f4-036d-8a3a41dde0fd",
 			"headers": "X-AUTH-TOKEN: 61a489dd-713c-422d-b1b6-5235ea863094\nContent-Type: application/json\n",
-			"url": "localhost:3000/get/1400448306/1461134409",
+			"url": "localhost:3003/get/1400448306/1461134409",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "GET",
@@ -39,7 +39,7 @@
 		{
 			"id": "5656d49b-d45a-1529-880a-361e9a5183b1",
 			"headers": "X-AUTH-TOKEN: 61a489dd-713c-422d-b1b6-5235ea863094\nContent-Type: application/json\n",
-			"url": "localhost:3000/get/e29b5758-634a-4333-bf22-48f616a10ad7",
+			"url": "localhost:3003/get/e29b5758-634a-4333-bf22-48f616a10ad7",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "GET",
@@ -58,7 +58,7 @@
 		{
 			"id": "607ddfed-2061-ad49-7446-49c0507dd800",
 			"headers": "X-AUTH-TOKEN: 61a489dd-713c-422d-b1b6-5235ea863094\nContent-Type: application/json\n",
-			"url": "localhost:3000/get/error",
+			"url": "localhost:3003/get/error",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "GET",
@@ -77,7 +77,7 @@
 		{
 			"id": "9f9c80e8-ff99-cd34-aaa9-c312ecafc2dc",
 			"headers": "X-AUTH-TOKEN: 61a489dd-713c-422d-b1b6-5235ea863094\nContent-Type: application/json\n",
-			"url": "localhost:3000/get/to/philipp.piwowarsky@break-out.org",
+			"url": "localhost:3003/get/to/philipp.piwowarsky@break-out.org",
 			"pathVariables": {},
 			"preRequestScript": "",
 			"method": "GET",
@@ -97,7 +97,7 @@
 		{
 			"id": "bdd64b0c-bb62-64c1-447b-2a924993dae0",
 			"headers": "X-AUTH-TOKEN: 61a489dd-713c-422d-b1b6-5235ea863094\nContent-Type: application/json\n",
-			"url": "localhost:3000/send",
+			"url": "localhost:3003/send",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
@@ -117,7 +117,7 @@
 		{
 			"id": "e624f6e4-ad48-68dc-6634-3f31a92cca4a",
 			"headers": "X-AUTH-TOKEN: 61a489dd-713c-422d-b1b6-5235ea863094\nContent-Type: application/json\n",
-			"url": "localhost:3000/get/campaign/TESTING",
+			"url": "localhost:3003/get/campaign/TESTING",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "GET",
@@ -136,7 +136,7 @@
 		{
 			"id": "ecd4f8fd-6bdd-0b76-4e61-36d5e316a689",
 			"headers": "X-AUTH-TOKEN: 61a489dd-713c-422d-b1b6-5235ea863094\nContent-Type: application/json\n",
-			"url": "localhost:3000/get",
+			"url": "localhost:3003/get",
 			"pathVariables": {},
 			"preRequestScript": "",
 			"method": "GET",

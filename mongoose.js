@@ -2,11 +2,11 @@
 
 var mongoose = require('mongoose');
 
-const MONGO_USER = process.env.MONGO_USER || "";
-const MONGO_PASSWORD = process.env.MONGO_PASSWORD || "";
-const MONGO_DATABASE = process.env.MONGO_DATABASE || "mails";
-const MONGO_HOST = process.env.MONGO_HOST || "127.0.0.1:27017";
-const URL = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}/${MONGO_DATABASE}`;
+const MAILER_MONGO_USER = process.env.MAILER_MONGO_USER || "";
+const MAILER_MONGO_PASSWORD = process.env.MAILER_MONGO_PASSWORD || "";
+const MAILER_MONGO_DATABASE = process.env.MAILER_MONGO_DATABASE || "mails";
+const MAILER_MONGO_HOST = process.env.MAILER_MONGO_HOST || "127.0.0.1:27017";
+const URL = `mongodb://${MAILER_MONGO_USER}:${MAILER_MONGO_PASSWORD}@${MAILER_MONGO_HOST}/${MAILER_MONGO_DATABASE}`;
 
 /**
  * Code in this File is taken from http://stackoverflow.com/a/33139673

@@ -1,4 +1,4 @@
-var sendgrid = require('sendgrid')(process.env.SENDGRID_KEY);
+var sendgrid = require('sendgrid')(process.env.MAILER_SENDGRID_KEY);
 var uuid = require('node-uuid');
 var mongo = require('./mongoose.js');
 

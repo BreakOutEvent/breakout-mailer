@@ -30,8 +30,9 @@ app.get('/get/:id', auth, mailer.getByID);
 app.get('/get/:from/:to', auth, mailer.getFromTo);
 app.get('/get', auth, mailer.getAll);
 
+var port = process.env.MAILER_PORT || 3003;
 
-var server = app.listen(3000, function () {
+var server = app.listen(port, function () {
     var host = server.address().address;
     var port = server.address().port;
 
