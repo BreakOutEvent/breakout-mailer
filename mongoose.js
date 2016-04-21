@@ -5,16 +5,16 @@ var mongoose = require('mongoose');
 const MAILER_MONGO_USER = process.env.MAILER_MONGO_USER || "";
 const MAILER_MONGO_PASSWORD = process.env.MAILER_MONGO_PASSWORD || "";
 const MAILER_MONGO_DATABASE = process.env.MAILER_MONGO_DATABASE || "mails";
-const MAILER_MONGO_HOST = process.env.MAILER_MONGO_HOST || "127.0.0.1:27017";
+const MAILER_MONGO_HOST = `${process.env.MONGO_PORT_27017_TCP_ADDR}/${process.env.MONGO_PORT_27017_TCP_PORT}`;
 const URL = buildMongoUrl(MAILER_MONGO_USER, MAILER_MONGO_PASSWORD, MAILER_MONGO_DATABASE, MAILER_MONGO_HOST);
 
 // Build connection URL dependent on whether a user is specified or not
 function buildMongoUrl(user, password, database, host) {
-  if(!user) {
-    return `mongodb://${host}/${database}`;
-  } else {
-    return `mongodb://${user}:${password}@${host}/${database}`;
-  }
+    if (user == "") {
+        return `mongodb://${host}/${database}`;
+    } else {
+        return `mongodb://${user}:${password}@${host}/${database}`;
+    }
 }
 
 /**

@@ -7,15 +7,11 @@ Installation
 
 * register Sendgrid Event-Notifications to your /webhook url
 * docker build -t breakout/mailer .
-* docker run -d \  
+* docker run --name mailer --link mailer-mongo:mongo -d \  
    -e MAILER_AUTH_TOKEN='shared-mailing-token' \  
-   -e MAILER_SENDGRID_KEY='sg-key' \  
-   -e MAILER_MONGO_USER='user' \  
-   -e MAILER_MONGO_PASSWORD='password' \  
    -e MAILER_MONGO_DATABASE='mails' \  
-   -e MAILER_MONGO_HOST='127.0.0.1:27017' \  
    -e MAILER_PORT=3003 \  
-   -p 3003:3003 breakout/mailer
+   -p 3003:3003 breakout-mailer
 
 Usage
 -----
