@@ -94,6 +94,17 @@ var sendMail = function (req, res, next) {
     var status = "creating";
     var error = "";
 
+    email.addFilter('templates', 'enable', 1);
+    email.addSubstitution('-headTitle-', mail.subject);
+
+    if (mail.buttonText && mail.buttonUrl) {
+        email.addFilter('templates', 'template_id', process.env.MAILER_TEMPLATE_BUTTON_ID);
+        email.addSubstitution('-buttonText-', mail.buttonText);
+        email.addSubstitution('-buttonUrl-', mail.buttonUrl);
+    } else {
+        email.addFilter('templates', 'template_id', process.env.MAILER_TEMPLATE_ID);
+    }
+
     sendgrid.send(email, function (err, json) {
         var mongomail = new mailObject({
             id: id,
@@ -109,7 +120,7 @@ var sendMail = function (req, res, next) {
         if (err) {
             status = "error: " + err;
             console.error(err);
-            res.json({error: err});
+            res.json({error: err.message});
         } else {
             if (json.message === 'success') {
                 status = "started";
