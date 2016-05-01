@@ -61,10 +61,17 @@ var sendMail = function (req, res, next) {
 
     var to = [];
 
+    var buttonTexts = [];
+    var buttonUrls = [];
+    var headTitles = [];
+
     if (mail.tos !== undefined) {
         mail.tos.forEach(function (elem) {
             email.addTo(elem);
             to.push({email: elem, isbcc: false, events: []});
+            buttonTexts.push(mail.buttonText);
+            buttonUrls.push(mail.buttonUrl);
+            headTitles.push(mail.subject);
         });
     }
 
@@ -95,12 +102,12 @@ var sendMail = function (req, res, next) {
     var error = "";
 
     email.addFilter('templates', 'enable', 1);
-    email.addSubstitution('-headTitle-', mail.subject);
+    email.addSubstitution('-headTitle-', headTitles);
 
     if (mail.buttonText && mail.buttonUrl) {
         email.addFilter('templates', 'template_id', process.env.MAILER_TEMPLATE_BUTTON_ID);
-        email.addSubstitution('-buttonText-', mail.buttonText);
-        email.addSubstitution('-buttonUrl-', mail.buttonUrl);
+        email.addSubstitution('-buttonText-', buttonTexts);
+        email.addSubstitution('-buttonUrl-', buttonUrls);
     } else {
         email.addFilter('templates', 'template_id', process.env.MAILER_TEMPLATE_ID);
     }
