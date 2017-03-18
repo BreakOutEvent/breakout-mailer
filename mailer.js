@@ -85,8 +85,8 @@ var sendMail = function (req, res, next) {
 
     email.setSubject(mail.subject);
     email.setHtml(mail.html);
-    email.setFrom("mailer@break-out.org");
-    email.setFromName("Breakout Mailer");
+    email.setFrom("webseite@break-out.org");
+    email.setFromName("BreakOut");
 
     if (mail.files !== undefined) {
         mail.files.forEach(function (elem) {
