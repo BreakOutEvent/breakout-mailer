@@ -1,7 +1,6 @@
 {
   "name": "breakout-mailer",
-  "version": "0.0.1",
-  "private": true,
+  "version": "1.0.0",
   "scripts": {
     "start": "node $NODE_DEBUG_OPTION server.js"
   },
