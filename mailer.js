@@ -1,21 +1,24 @@
 'use strict';
 
-var sendgrid = require('sendgrid')(process.env.MAILER_SENDGRID_KEY);
+const sgMail = require('@sendgrid/mail');
 var uuid = require('node-uuid');
 var mongo = require('./mongoose.js');
+
+sgMail.setApiKey(process.env.MAILER_SENDGRID_KEY);
 
 var mailObject = mongo.mongoose.model('mails',
     mongo.mongoose.Schema({
         id: String,
         campaign_code: String,
         tos: [{email: String, isbcc: Boolean, events: [{timestamp: Number, message: String, email: String}]}],
+        substitutions: [],
         subject: String,
         body: String,
         from: String,
         attachments: [String],
         create_date: Number,
         update_date: Number
-    })
+    }, { strict: false })
 );
 
 
@@ -57,66 +60,66 @@ var sendMail = function (req, res, next) {
     //Timestamp - 2 to fix async time issues
     var start_date = getTimestamp() - 2;
 
-    var email = new sendgrid.Email();
+    var email = {};
 
     var to = [];
-
-    var buttonTexts = [];
-    var buttonUrls = [];
-    var headTitles = [];
-
     if (mail.tos !== undefined) {
+        email.to = mail.tos;
+
         mail.tos.forEach(function (elem) {
-            email.addTo(elem);
             to.push({email: elem, isbcc: false, events: []});
-            buttonTexts.push(mail.buttonText);
-            buttonUrls.push(mail.buttonUrl);
-            headTitles.push(mail.subject);
         });
     }
 
     if (mail.bccs !== undefined) {
+        email.bcc = mail.bccs;
+
         mail.bccs.forEach(function (elem) {
-            console.log(elem);
-            email.addBcc(elem);
             to.push({email: elem, isbcc: true, events: []});
         });
     }
 
-    email.setSubject(mail.subject);
-    email.setHtml(mail.html);
-    email.setFrom("webseite@break-out.org");
-    email.setFromName("BreakOut");
+    email.subject = mail.subject;
+    email.html = mail.html;
+    email.from = {
+        name: 'BreakOut e.V.',
+        email: 'event@break-out.org',
+    };
 
-    if (mail.files !== undefined) {
+    /*if (mail.files !== undefined) {
         mail.files.forEach(function (elem) {
             //TODO download/upload Files
             email.addFile(elem);
         });
-    }
+    }*/
 
     var id = uuid.v4();
-    email.addUniqueArg("mailer_id", id);
+    email.customArgs = {"mailer_id": id};
 
-    var status = "creating";
-    var error = "";
+    //email.addFilter('templates', 'enable', 1);
 
-    email.addFilter('templates', 'enable', 1);
-    email.addSubstitution('-headTitle-', headTitles);
-
+    email.substitutionWrappers = ['-', '-'];
     if (mail.buttonText && mail.buttonUrl) {
-        email.addFilter('templates', 'template_id', process.env.MAILER_TEMPLATE_BUTTON_ID);
-        email.addSubstitution('-buttonText-', buttonTexts);
-        email.addSubstitution('-buttonUrl-', buttonUrls);
+        email.templateId = process.env.MAILER_TEMPLATE_BUTTON_ID;
+        email.substitutions = {
+            "buttonText": mail.buttonText,
+            "buttonUrl": mail.buttonUrl,
+            "headTitle": mail.subject,
+        };
     } else {
-        email.addFilter('templates', 'template_id', process.env.MAILER_TEMPLATE_ID);
+        email.templateId = process.env.MAILER_TEMPLATE_ID;
+        email.substitutions = {
+            "headTitle": mail.subject
+        };
     }
 
-    sendgrid.send(email, function (err, json) {
+    var status = "creating";
+    sgMail.send(email, function (err, json) {
         var mongomail = new mailObject({
             id: id,
             tos: to,
             subject: mail.subject,
+            substitutions: email.substitutions,
             campaign_code: mail.campaign_code,
             body: mail.html,
             attachments: mail.files,
@@ -129,12 +132,12 @@ var sendMail = function (req, res, next) {
             console.error(err);
             res.json({error: err.message});
         } else {
-            if (json.message === 'success') {
+            if (json[0].statusMessage === 'Accepted') {
                 status = "started";
                 console.log("Sent " + mail.subject + "-Mail to: " + JSON.stringify(mail.tos));
                 res.json({success: 'ok', mailer_id: id});
             } else {
-                status = json.message;
+                status = json.statusMessage;
                 console.error(json);
                 res.json({error: json});
             }

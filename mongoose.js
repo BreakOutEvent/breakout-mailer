@@ -5,7 +5,11 @@ var mongoose = require('mongoose');
 const MAILER_MONGO_USER = process.env.MAILER_MONGO_USER || "";
 const MAILER_MONGO_PASSWORD = process.env.MAILER_MONGO_PASSWORD || "";
 const MAILER_MONGO_DATABASE = process.env.MAILER_MONGO_DATABASE || "mails";
-const MAILER_MONGO_HOST = `${process.env.MONGO_PORT_27017_TCP_ADDR}:${process.env.MONGO_PORT_27017_TCP_PORT}`;
+const MAILER_MONGO_ADDR = process.env.MONGO_PORT_27017_TCP_ADDR || "localhost";
+const MAILER_MONGO_PORT = process.env.MONGO_PORT_27017_TCP_PORT || "27017";
+
+const MAILER_MONGO_HOST = `${MAILER_MONGO_ADDR}:${MAILER_MONGO_PORT}`;
+
 const URL = buildMongoUrl(MAILER_MONGO_USER, MAILER_MONGO_PASSWORD, MAILER_MONGO_DATABASE, MAILER_MONGO_HOST);
 
 // Build connection URL dependent on whether a user is specified or not
@@ -32,7 +36,8 @@ var opt = {
     // auth: {
     //     authdb: 'admin'
     // },
-    server: {auto_reconnect: true}
+    autoReconnect: true,
+    useNewUrlParser: true
 };
 
 mongoose.connect(URL, opt);
@@ -53,13 +58,13 @@ db.on('disconnected', function () {
         setTimeout(function () {
             console.log('reconnecting to MongoDB');
             lastReconnectAttempt = new Date().getTime();
-            mongoose.connect(URL, opt);
+            mongoose.createConnection(URL, opt);
         }, delay);
     }
     else {
         console.log('reconnecting to MongoDB');
         lastReconnectAttempt = now;
-        mongoose.connect(URL, opt);
+        mongoose.createConnection(URL, opt);
     }
 });
 

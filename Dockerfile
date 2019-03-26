@@ -1,11 +1,10 @@
-FROM mhart/alpine-node:6
+FROM node:10-alpine
 RUN apk add --update git bash
 
 COPY . /src
 WORKDIR /src
 
 RUN npm install
-RUN npm install -g forever
 
 EXPOSE 3003
-CMD ["forever", "server.js"]
+CMD ["node", "server.js"]
