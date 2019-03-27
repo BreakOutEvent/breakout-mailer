@@ -40,7 +40,8 @@ var opt = {
     useNewUrlParser: true
 };
 
-mongoose.connect(URL, opt);
+console.log('mongoose connect', URL, opt);
+mongoose.createConnection(URL, opt);
 
 db.on('error', function (error) {
     console.error('Error in MongoDb connection: ' + error);
